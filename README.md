@@ -50,7 +50,7 @@ To create a **digital ecosystem for schools** that reduces paperwork, simplifies
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/school-management-system.git
+git clone https://github.com/GoUpTech/school-management-system.git
 
 # Navigate into the project directory
 cd school-management-system
