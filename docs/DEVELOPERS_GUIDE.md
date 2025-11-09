@@ -229,6 +229,6 @@ If you’ve already set up your local environment previously, here’s what to d
 
 ✅ You’re now synced and ready to continue development exactly where you left off.
 
-> 🏁 **Goal:** Smooth and modular development of the Student Dashboard — clean commits, independent work, and seamless integration.
+> 🏁 **Goal:** Smooth and modular development of the feature of School-Managements-System — clean commits, independent work, and seamless integration.
 
 **Organization:** GoUpTech  
