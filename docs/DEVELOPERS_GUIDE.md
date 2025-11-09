@@ -184,8 +184,51 @@ Before submitting your PR:
 
 ---
 
-> 🏁 **Goal:** Smooth and modular development of the Student Dashboard — clean commits, independent work, and seamless integration.
+### 🔁 When a Developer Returns to Continue Work
 
----
+If you’ve already set up your local environment previously, here’s what to do when you come back after a break 👇
+
+1. Navigate to the project
+   ```bash
+   cd /path/to/school-management-system
+   ```
+
+2. Activate your virtual environment
+   ```bash
+   # For backend (Django)
+      cd backend
+      source venv/bin/activate   # (Mac/Linux)
+   # or
+      venv\Scripts\activate      # (Windows)
+   ```
+
+3. Update code with latest changes
+   ```bash
+   git checkout feature/student-dashboard
+   git pull origin dev
+   ```
+
+4. Ensure dependencies are up to date
+   ```bash
+   # Backend
+   pip install -r requirements.txt
+
+   # Frontend
+   cd ../frontend
+   npm install
+   ```
+
+5. Run your servers
+   ```bash
+   # Backend
+   python manage.py runserver
+
+   # Frontend
+   npm start
+   ```
+
+✅ You’re now synced and ready to continue development exactly where you left off.
+
+> 🏁 **Goal:** Smooth and modular development of the Student Dashboard — clean commits, independent work, and seamless integration.
 
 **Organization:** GoUpTech  
