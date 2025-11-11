@@ -30,6 +30,16 @@ cd school-management-system
 
 ## 🌿 Branch Setup
 
+
+## 🚀 0. Developer Quick Start
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/GoUpTech/school-management-system.git
+cd school-management-system
+```
+
 Each developer should start from the latest `dev` branch.
 
 ```bash
@@ -38,8 +48,16 @@ git checkout dev
 git pull origin dev
 
 # Create your feature branch
-git checkout -b feature/student-dashboard
-git push -u origin feature/student-dashboard
+git checkout -b yourname-feature/student-dashboard
+git push -u origin yourname-feature/student-dashboard
+```
+
+And make changes or create files and then commit all the changes and push into the github make sure you are into your branch to go your branch (git checkout your-branch-name)
+```bash
+git checkout your-branch-name
+git add .
+git commit -m "your commit message"
+git push
 ```
 
 ---
