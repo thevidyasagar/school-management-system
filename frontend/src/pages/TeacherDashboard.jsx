@@ -1,140 +1,171 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
-const TeacherDashboard = () => {
+export default function TeacherDashboard() {
+  const [teacher, setTeacher] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("teacherData"));
+    setTeacher(data);
+  }, []);
+
+  if (!teacher) {
+    return (
+      <div className="w-full">
+        <h1 className="text-2xl font-semibold text-[#1d1d1f]">No Dashboard Found</h1>
+        <p className="text-[#6e6e73] mt-2">Please create a teacher dashboard first.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full min-h-screen bg-[#f8f2e9] px-8 py-10">
+    <div className="w-full">
 
-
-      {/* Top Bar */}
-      <header className="w-full bg-white rounded-xl shadow-sm p-5 flex items-center justify-between">
+      {/* ======================= HEADER ======================= */}
+      <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Teacher Dashboard
-          </h1>
-          <p className="text-sm text-slate-500">
-            GoUpTech School · Academic Session 2024–25
-          </p>
+          <h1 className="text-3xl font-semibold text-[#1d1d1f]">Teacher Dashboard</h1>
+          <p className="text-[#6e6e73]">GoUpTech School • Academic Session 2024–25</p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="text-right hidden md:block">
-            <p className="font-medium text-slate-900">Anjali Verma</p>
-            <p className="text-xs text-slate-500">Class Teacher · VIII A</p>
-          </div>
-
-          <div className="h-11 w-11 rounded-full bg-gradient-to-br from-amber-400 to-rose-400 flex items-center justify-center text-white font-semibold text-lg">
-            A
-          </div>
-        </div>
-      </header>
-
-      {/* Stats Cards */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
-        {[
-          { title: "Total Students", value: 120, color: "text-amber-600" },
-          { title: "Today’s Classes", value: 4, color: "text-blue-600" },
-          { title: "Pending Assignments", value: 7, color: "text-rose-600" },
-          { title: "Attendance to Verify", value: 2, color: "text-green-600" },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="bg-white p-6 rounded-xl shadow hover:shadow-md transition"
+        {/* PROFILE BOX */}
+        <div className="relative">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex items-center gap-3 px-4 py-2 bg-white rounded-2xl shadow-sm border border-[#e5e5e5] hover:shadow-md transition"
           >
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              {item.title}
-            </p>
-            <h2 className={`text-4xl font-bold mt-3 ${item.color}`}>
-              {item.value}
-            </h2>
-            <p className="text-xs text-slate-500 mt-1">Updated just now</p>
-          </div>
-        ))}
-      </section>
+            <div className="flex flex-col text-right">
+              <span className="text-sm font-semibold text-[#1d1d1f]">{teacher.name}</span>
+              <span className="text-xs text-[#6e6e73]">{teacher.classTeacher}</span>
+            </div>
 
-      {/* Main Sections */}
-      <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-8">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 text-white flex items-center justify-center font-semibold">
+              {teacher.name.charAt(0)}
+            </div>
 
-        {/* Timetable */}
-        <div className="xl:col-span-2 bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">
-            Today’s Timetable
-          </h3>
+            <ChevronDown size={18} />
+          </button>
 
-          <table className="w-full text-sm">
-            <thead className="text-slate-600 border-b">
+          {/* Profile Dropdown */}
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-44 bg-white shadow-lg rounded-xl border border-[#e5e5e5] py-2">
+              <DropdownItem label="View Profile" />
+              <DropdownItem label="Edit Profile" />
+              <DropdownItem label="Logout" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ======================= STATS CARDS ======================= */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+        <Card label="Total Students" value="120" />
+        <Card label="Today’s Classes" value="4" />
+        <Card label="Pending Assignments" value="7" />
+        <Card label="Attendance to Verify" value="2" />
+      </div>
+
+      {/* ======================= QUICK ACTIONS ======================= */}
+      <h2 className="text-xl font-semibold text-[#1d1d1f] mb-4">Quick Actions</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4 mb-10">
+
+        <QuickBtn label="My Classes" />
+        <QuickBtn label="Attendance" />
+        <QuickBtn label="Assignments" />
+        <QuickBtn label="Exams / Marks Entry" />
+        <QuickBtn label="Study Material" />
+        <QuickBtn label="Schedule Test" />
+
+      </div>
+
+      {/* ======================= TIMETABLE + SUBJECTS ======================= */}
+      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-8">
+
+        {/* TIMETABLE */}
+        <div className="bg-white rounded-3xl border border-[#e5e5e5] shadow-sm p-6">
+          <h3 className="text-lg font-semibold text-[#1d1d1f] mb-4">Today's Timetable</h3>
+
+          <table className="w-full">
+            <thead className="text-left text-[#6e6e73] text-sm border-b">
               <tr>
-                <th className="py-3 text-left">Time</th>
-                <th className="py-3 text-left">Class</th>
-                <th className="py-3 text-left">Subject</th>
-                <th className="py-3 text-left">Room</th>
+                <th className="py-2">Time</th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Room</th>
               </tr>
             </thead>
-
-            <tbody className="text-slate-700">
-              {[
-                ["09:00–09:45", "VIII A", "Mathematics", "204"],
-                ["10:00–10:45", "VIII B", "Mathematics", "207"],
-                ["11:15–12:00", "VII A", "Science", "Lab 1"],
-                ["01:00–01:45", "VIII A", "Maths (Doubt)", "204"],
-              ].map((row, i) => (
-                <tr key={i} className="border-b hover:bg-slate-50 transition">
-                  <td className="py-3">{row[0]}</td>
-                  <td>{row[1]}</td>
-                  <td>{row[2]}</td>
-                  <td>{row[3]}</td>
-                </tr>
-              ))}
+            <tbody className="text-[#1d1d1f]">
+              <Row time="09:00–09:45" classs="VIII A" subject="Mathematics" room="204" />
+              <Row time="10:00–10:45" classs="VIII B" subject="Mathematics" room="207" />
+              <Row time="11:15–12:00" classs="VII A" subject="Science" room="Lab 1" />
+              <Row time="01:00–01:45" classs="VIII A" subject="Maths (Doubt)" room="204" />
             </tbody>
           </table>
         </div>
 
-        {/* Assigned Subjects */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">
-            Assigned Subjects
-          </h3>
+        {/* ASSIGNED SUBJECTS */}
+        <div className="bg-white rounded-3xl border border-[#e5e5e5] shadow-sm p-6">
+          <h3 className="text-lg font-semibold text-[#1d1d1f] mb-4">Assigned Subjects</h3>
 
-          <ul className="space-y-4 text-sm">
-            <li className="flex items-start justify-between">
-              <div>
-                <p className="font-semibold text-slate-900">
-                  VIII A · Mathematics
-                </p>
-                <p className="text-xs text-slate-500">
-                  40 students · 5 periods/week
-                </p>
-              </div>
-              <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-medium">
-                Class Teacher
-              </span>
-            </li>
-
-            <li className="flex items-start justify-between">
-              <div>
-                <p className="font-semibold text-slate-900">
-                  VIII B · Mathematics
-                </p>
-                <p className="text-xs text-slate-500">
-                  38 students · 4 periods/week
-                </p>
-              </div>
-            </li>
-
-            <li className="flex items-start justify-between">
-              <div>
-                <p className="font-semibold text-slate-900">
-                  VII A · Science
-                </p>
-                <p className="text-xs text-slate-500">
-                  42 students · 3 periods/week
-                </p>
-              </div>
-            </li>
-          </ul>
+          <Subject title="VIII A · Mathematics" students="40" periods="5" tag />
+          <Subject title="VIII B · Mathematics" students="38" periods="4" />
+          <Subject title="VII A · Science" students="42" periods="3" />
         </div>
-      </section>
+      </div>
+
     </div>
   );
-};
+}
 
-export default TeacherDashboard;
+/* ======================= COMPONENTS ======================= */
+
+function Card({ label, value }) {
+  return (
+    <div className="bg-white rounded-3xl border border-[#e5e5e5] p-6 shadow-sm">
+      <p className="text-[#6e6e73] text-sm">{label}</p>
+      <h2 className="text-3xl font-semibold text-[#1d1d1f] mt-1">{value}</h2>
+    </div>
+  );
+}
+
+function Row({ time, classs, subject, room }) {
+  return (
+    <tr className="border-b">
+      <td className="py-3">{time}</td>
+      <td>{classs}</td>
+      <td>{subject}</td>
+      <td>{room}</td>
+    </tr>
+  );
+}
+
+function Subject({ title, students, periods, tag }) {
+  return (
+    <div className="mb-4">
+      <p className="font-medium text-[#1d1d1f]">{title}</p>
+      <p className="text-[#6e6e73] text-sm">{students} students · {periods} periods/week</p>
+      {tag && (
+        <span className="inline-block mt-1 px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs">
+          Class Teacher
+        </span>
+      )}
+    </div>
+  );
+}
+
+function QuickBtn({ label }) {
+  return (
+    <button className="bg-white border border-[#e5e5e5] shadow-sm rounded-2xl py-3 text-sm font-medium text-[#1d1d1f] hover:shadow-md transition">
+      {label}
+    </button>
+  );
+}
+
+function DropdownItem({ label }) {
+  return (
+    <button className="w-full text-left px-4 py-2 text-sm text-[#1d1d1f] hover:bg-[#f5f5f5]">
+      {label}
+    </button>
+  );
+}

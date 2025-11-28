@@ -1,10 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
-// Premium Icons (you can change later too)
+// Premium Icons
 import {
   LayoutDashboard,
-  Home,
   User,
   GraduationCap,
   Users,
@@ -31,7 +30,6 @@ export default function Sidebar() {
           GoUpTech
         </h1>
 
-        {/* Logo Box */}
         <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 
                         text-white flex items-center justify-center font-semibold shadow-md">
           G
@@ -60,12 +58,27 @@ export default function Sidebar() {
         {openDashboard && (
           <div className="ml-4 mt-2 space-y-1">
 
-            <SubLink title="Teacher Dashboard" path="/teacher-dashboard" pathname={pathname} icon={User} />
-            <SubLink title="Student Dashboard" path="/student-dashboard" pathname={pathname} icon={GraduationCap} />
-            <SubLink title="Admin Dashboard" path="/admin-dashboard" pathname={pathname} icon={Users} />
+            {/* FIX: Teacher Dashboard opens CREATE PAGE */}
+            <SubLink
+              title="Teacher Dashboard"
+              path="/teacher/create"
+              pathname={pathname}
+              icon={User}
+            />
 
-            <SubLink title="Create Dashboard" path="/teacher-dashboard/create" pathname={pathname} icon={FileBarChart} />
-            <SubLink title="View Dashboard" path="/teacher-dashboard" pathname={pathname} icon={Home} />
+            <SubLink
+              title="Student Dashboard"
+              path="/student-dashboard"
+              pathname={pathname}
+              icon={GraduationCap}
+            />
+
+            <SubLink
+              title="Admin Dashboard"
+              path="/admin-dashboard"
+              pathname={pathname}
+              icon={Users}
+            />
 
           </div>
         )}
