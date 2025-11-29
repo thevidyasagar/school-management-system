@@ -59,4 +59,8 @@ cd school-management-system
 pip install -r requirements.txt
 
 # Run the server
+<<<<<<< HEAD
 python manage.py runserver
+=======
+python manage.py runserver
+>>>>>>> 8924e23b89223b55fb1d8910a34444819f13017e
